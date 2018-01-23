@@ -5,15 +5,8 @@ var Schema=mongoose.Schema;
 var ToDoSchema= new Schema({
     text:{
 
-        type:String
-    },
-    completed:{
-        type:Boolean,
-        default:false
-    },
-    completedAt:{
-        type:Number,
-        default:1234
+        type:String,
+        required:true
     }
 
 });
