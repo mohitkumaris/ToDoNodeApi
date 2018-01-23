@@ -1,5 +1,6 @@
-var express=require('express');
-var bodyParser=require('body-parser')
+const express=require('express');
+const bodyParser=require('body-parser');
+const {ObjectID}=require('mongodb');
 
 var mongoose=require('./db/mongoose');
 var {User}=require('./models/user');
@@ -12,9 +13,7 @@ app.use(bodyParser.json());
 
 const port=process.env.port || 8989;
 
-app.listen(port,()=>{
-    console.log('Server is connected');
-});
+
 
 app.post('/todos',(req,res)=>{
 
@@ -33,6 +32,39 @@ app.post('/todos',(req,res)=>{
     });
 });
 
+
+app.get('/todos',(req,res)=>{
+
+    ToDo.find().then((todos)=>{
+
+        res.send({todos});
+
+    },(err)=>{
+
+        res.status(400).send(err);
+    });
+});
+
+
+app.get('/todos/:id',(req,res)=>{
+
+    let id=req.params.id;
+    if(!ObjectID.isValid(id)){
+        return res.status(400);
+    }
+    ToDo.findById(id).then((todos)=>{
+
+        res.status(200).send({todos});
+
+    },(err)=>{
+
+        res.status(400).send(err);
+    });
+});
+
+app.listen(port,()=>{
+    console.log('Server is connected');
+});
 
 module.exports={
     app
