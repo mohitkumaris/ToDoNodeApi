@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(bodyParser.json());
 
-const port=process.env.port || 8989;
+const port=process.env.PORT || 8989;
 
 
 
@@ -63,7 +63,7 @@ app.get('/todos/:id',(req,res)=>{
 });
 
 app.listen(port,()=>{
-    console.log('Server is connected');
+    console.log(`Server is connected at ${port}`);
 });
 
 module.exports={
