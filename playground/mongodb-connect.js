@@ -1,10 +1,10 @@
 
 const MongoClient=require('mongodb').MongoClient;
 
-
-var user={name:'mohit',age:33}
-var {name}=user;
-console.log(name);
+/* fetch properties using ES6  */
+//var user={name:'mohit',age:33}
+//var {name}=user;
+//console.log(name);
 
 
 MongoClient.connect('mongodb://192.168.108.181:27017/ToDoApp',(err,db)=>{
@@ -16,9 +16,9 @@ MongoClient.connect('mongodb://192.168.108.181:27017/ToDoApp',(err,db)=>{
 
     console.log('Connected to MongoDb Server');
 
-   /* db.collection('Todos').insertOne({
+   db.collection('Todos').insertOne({
 
-        text:'Something to do',
+        text:'Walk the dog',
         completed:false
     },(err,results)=>{
        if(err){
@@ -27,9 +27,9 @@ MongoClient.connect('mongodb://192.168.108.181:27017/ToDoApp',(err,db)=>{
 
        console.log(JSON.stringify(results.ops,undefined,2));
 
-    });*/
+    });
 
-    db.collection('Users').insertOne({
+    /* db.collection('Users').insertOne({
 
         name:'mohit',
         age:33
@@ -40,7 +40,7 @@ MongoClient.connect('mongodb://192.168.108.181:27017/ToDoApp',(err,db)=>{
 
         console.log(JSON.stringify(results.ops[0]._id.getTimestamp(),undefined,2));
 
-    });
+    });*/
 
     db.close();
 
