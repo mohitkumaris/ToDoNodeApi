@@ -70,14 +70,13 @@ User routes
 
 app.post('/users',(req,res)=>{
 
-    var body=_.pick(req.body,['email','password'])
+    var body=_.pick(req.body,['email','password']);
     var user= new User(body);
 
-    user.save().then(()=>{
 
-        return user.generateTokens();
-        return user.toJson();
-    }).then((token)=>{
+
+         user.generateAuthToken()
+             .then((token)=>{
         res.header('x-auth',token).send(user);
 
     }).catch((err)=>{
@@ -92,5 +91,5 @@ app.listen(port,()=>{
 
 module.exports={
     app
-}
+};
 
