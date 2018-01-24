@@ -1,6 +1,7 @@
 const express=require('express');
 const bodyParser=require('body-parser');
 const {ObjectID}=require('mongodb');
+const {_}=require('lodash');
 
 var mongoose=require('./db/mongoose');
 var {User}=require('./models/user');
@@ -61,6 +62,29 @@ app.get('/todos/:id',(req,res)=>{
         res.status(400).send(err);
     });
 });
+
+/*
+User routes
+ */
+
+
+app.post('/users',(req,res)=>{
+
+    var body=_.pick(req.body,['email','password'])
+    var user= new User(body);
+
+    user.save().then(()=>{
+
+        return user.generateTokens();
+        return user.toJson();
+    }).then((token)=>{
+        res.header('x-auth',token).send(user);
+
+    }).catch((err)=>{
+        res.status(400).send(res);
+    });
+});
+
 
 app.listen(port,()=>{
     console.log(`Server is connected at ${port}`);
