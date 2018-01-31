@@ -6,8 +6,14 @@ const {_}=require('lodash');
 var mongoose=require('./db/mongoose');
 var {User}=require('./models/user');
 var {ToDo}=require('./models/todo');
+var {authenticate}=require('./middleware/authenticate');
 
 var app=express();
+
+app.use((req,res,next)=>{
+    next();
+});
+
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.use(bodyParser.json());
@@ -72,10 +78,7 @@ app.post('/users',(req,res)=>{
 
     var body=_.pick(req.body,['email','password']);
     var user= new User(body);
-
-
-
-         user.generateAuthToken()
+    user.generateAuthToken()
              .then((token)=>{
         res.header('x-auth',token).send(user);
 
@@ -84,6 +87,12 @@ app.post('/users',(req,res)=>{
     });
 });
 
+
+
+app.get('/users/me',authenticate,(req,res)=>{
+
+       res.send(req.user);
+});
 
 app.listen(port,()=>{
     console.log(`Server is connected at ${port}`);
