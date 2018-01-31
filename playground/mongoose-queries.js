@@ -1,5 +1,5 @@
 const {mongoose}=require('../server/db/mongoose');
-const {ToDo}=require('../server/models/todo');
+
 
 /*
 1 find : gives array
@@ -7,3 +7,4 @@ const {ToDo}=require('../server/models/todo');
 3 findById: pass id as argument only
 
  */
+

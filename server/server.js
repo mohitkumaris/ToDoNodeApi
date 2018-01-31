@@ -3,6 +3,7 @@ const bodyParser=require('body-parser');
 const {ObjectID}=require('mongodb');
 const {_}=require('lodash');
 
+
 var mongoose=require('./db/mongoose');
 var {User}=require('./models/user');
 var {ToDo}=require('./models/todo');
@@ -77,6 +78,7 @@ User routes
 app.post('/users',(req,res)=>{
 
     var body=_.pick(req.body,['email','password']);
+
     var user= new User(body);
     user.generateAuthToken()
              .then((token)=>{
@@ -88,7 +90,9 @@ app.post('/users',(req,res)=>{
 });
 
 
-
+/*
+Private routes
+ */
 app.get('/users/me',authenticate,(req,res)=>{
 
        res.send(req.user);
