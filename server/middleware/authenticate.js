@@ -3,9 +3,9 @@ const {User}=require('../models/user');
 /*
 Custom Middleware
  */
-var authenticate=(req,res,next)=>{
+const authenticate=(req,res,next)=>{
 
-    var token=req.header('x-auth');
+    let token=req.header('x-auth');
     User.findByToken(token).then((user)=>{
         if(!user){
             return Promise.reject();
