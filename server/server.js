@@ -4,10 +4,12 @@ const {ObjectID}=require('mongodb');
 const {_}=require('lodash');
 
 
-var mongoose=require('./db/mongoose');
-var {User}=require('./models/user');
-var {ToDo}=require('./models/todo');
-var {authenticate}=require('./middleware/authenticate');
+const mongoose=require('./db/mongoose');
+const {User}=require('./models/user');
+const {ToDo}=require('./models/todo');
+const {authenticate}=require('./middleware/authenticate');
+
+
 
 var app=express();
 
@@ -100,6 +102,29 @@ app.get('/users/me',authenticate,(req,res)=>{
 
 app.listen(port,()=>{
     console.log(`Server is connected at ${port}`);
+});
+
+/*
+Login route
+ */
+
+app.post('/users/login',(req,res)=>{
+
+    var body=_.pick(req.body,['email','password']);
+    User.findByCredentials(body.email,body.password).then((user)=>{
+
+        user.generateAuthToken()
+            .then((token)=>{
+                res.header('x-auth',token).send(user);
+
+            });
+    }).catch((e)=>{
+
+        res.status(400).send();
+    });
+
+
+
 });
 
 module.exports={
